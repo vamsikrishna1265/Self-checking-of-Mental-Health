@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliza Psychotherapist Chatbot</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff; /* very light blue */
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            height: 80%;
+        }
+
+        #chatArea {
+            overflow-y: scroll;
+            height: 70%;
+            width: 100%;
+            background-color: #6698FF; /* light blue */
+            border: 1px solid #000; /* very dark border color */
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        #userInput {
+            width: 80%;
+            margin-bottom: 10px;
+            border: 1px solid #000; /* very dark border color */
+        }
+
+        button {
+            border: 1px solid #000; /* very dark border color */
+            background-color: #fff;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #f0f8ff; /* very light blue */
+        }
+    </style>
+    <script>
+        // Your JavaScript code goes here
+        const responses = {
+    "hello": ["Hello, how can I help you?"],
+    "hey" : ["Hi, how can I assist you?"],
+    "hi": ["Hello, I'm Elisa."],
+    "since (.*)" : ["then it may be a problem"],
+    "from past (.*)" : ["oh"],
+    "what is your gender" : ["i dont have any gender, i am an ai"],
+    "thinking to do (.*)" : ["why do you think {}"],
+    "my name is (.*)": ["Ok, do you feel uneasy in your life?"],
+    "i want to (.*)": ["Why do you want to {}?", "Why do you feel like that?"],
+    "i feel (.*)": ["Why do you feel {}?", "How long have you been feeling {}?"],
+    "i am (.*)": ["Why do you say you're {}?", "How long have you been {}?"],
+    "do you have any tips (.*)" : ["1.you should stay calm, and think what to do"],
+    "i'm (.*)": ["Why are you {}?", "How long have you been {}?"],
+    "i (.*) myself": ["Why do you {} yourself?", "What makes you think you {} me?"],
+    "(.*) sorry (.*)": ["There is no need to apologize.", "What are you apologizing for?"],
+    "(.*) friend (.*)": ["Tell me more about your friend.", "How do your friends make you feel?"],
+    "yes": ["You seem quite sure.", "Ok, but can you elaborate?"],
+    "no": ["Why not?", "Ok, but can you elaborate a bit?"],
+    "because (.*)": ["Don't worry about that.", "Can you explain why {}?"],
+    "how are you": ["I'm just a computer program, so I don't have feelings, but thank you for asking.", "I'm here to assist you, how can I help?"],
+    "what is your name": ["My name is Elisa.", "I'm Elisa, your friendly chatbot."],
+    "what time is it": ["It's currently {{time}}.", "The time is {{time}}."],
+    "where are you from": ["I exist in the digital realm, so I don't have a physical location.", "I am everywhere and nowhere at the same time."],
+    "can you help me": ["Of course, I'll do my best to assist you.", "I'll try my best to help, what do you need assistance with?"],
+    "tell me a joke": ["Why don't scientists trust atoms? Because they make up everything!", "What do you call fake spaghetti? An impasta!"],
+    "do you have any siblings": ["No, I'm the only one of my kind.", "In a way, all chatbots are siblings in the digital world."],
+    "what is the meaning of life": ["The meaning of life is subjective and can vary from person to person.", "That's a profound question! The answer might be different for everyone."],
+    "can you sing": ["I can't sing, but I can definitely help you find some great songs to listen to!", "I don't have a singing voice, unfortunately, but I can provide song recommendations if you'd like."],
+    "what is your favorite color": ["I don't have the ability to see or perceive colors, so I don't have a favorite color.", "As a chatbot, I don't have preferences like humans do, so I don't have a favorite color."],
+    "are you a robot": ["Yes, I am a chatbot, a computer program designed to interact with users like you.", "Correct, I am an AI-powered chatbot programmed to assist you."],
+    "what's the weather like": ["I can't check the weather directly, but you can easily find out by checking a weather website or app.", "I don't have access to real-time weather data, but you can check the weather forecast using a weather app or website."],
+    "what do you do for fun": ["I enjoy processing queries and providing assistance to users like you!", "Interacting with users like you is what I find fun!"],
+    "tell me about yourself": ["I'm Elisa, a chatbot designed to assist you with various tasks and inquiries.", "I'm an AI-powered chatbot here to help you with any questions or tasks you have."],
+    "what languages do you speak": ["I can communicate with you in English, but I'm constantly learning and improving!", "Currently, I can converse with you in English, but I'm always learning and expanding my language abilities."],
+   };
+
+        function matchResponse(inputText) {
+            for (const [pattern, responseList] of Object.entries(responses)) {
+                const matches = inputText.toLowerCase().match(pattern);
+                if (matches) {
+                    const chosenResponse = responseList[Math.floor(Math.random() * responseList.length)];
+                    return chosenResponse.replace('{}', matches.slice(1).join(' '));
+                }
+            }
+            return "I'm sorry, I don't understand what you're saying.";
+        }
+
+        function chat() {
+            const userInput = document.getElementById("userInput").value;
+            document.getElementById("userInput").value = ""; // Clear the search box
+            const chatArea = document.getElementById("chatArea");
+            
+            const userMessage = document.createElement("div");
+            userMessage.textContent = "You: " + userInput;
+            chatArea.appendChild(userMessage);
+            
+            const elizaMessage = document.createElement("div");
+            elizaMessage.textContent = "Eliza: " + matchResponse(userInput);
+            chatArea.appendChild(elizaMessage);
+            
+            // Automatically scroll to the bottom
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+    </script>
+</head>
+<body>
+    <div id="container">
+        <h1>Are you feeling alone! Chat with me....</h1>
+        <div id="chatArea"></div>
+        <input type="text" id="userInput">
+        <button onclick="chat()">Send</button>
+    </div>
+</body>
+</html>
